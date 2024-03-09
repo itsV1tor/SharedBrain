@@ -35,8 +35,6 @@ export function Posts() {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
       timeZone: 'America/Sao_Paulo',
     };
     const formattedDate = new Date(dateString).toLocaleString('en-US', options);
@@ -51,14 +49,14 @@ export function Posts() {
 
       {error && <p>{error}</p>}
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         {posts.map((post) => (
           <div key={post.id} className="p-2 border-2">
             <div className="flex justify-between mb-2">
               <span className="uppercase">User:{generateRandomUserId()}</span>
               <div className="flex items-center gap-2">
                 <FaRegCalendarAlt />
-                <p>{formatDate(post.created_at)}</p>
+                <p className="text-sm">{formatDate(post.created_at)}</p>
               </div>
             </div>
 
