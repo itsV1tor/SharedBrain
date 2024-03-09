@@ -1,15 +1,54 @@
+import { useState } from 'react';
+import axios from 'axios';
+
 export function Main() {
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormData({
+      ...formData,
+      [e.target.name]: event.target.value,
+    });
+
+    try {
+      const response = await axios.post(
+        'https://shared-brain-api.onrender.com/posts/create',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (response.ok) {
+        console.log('successful post:', response.data);
+      }
+    } catch (error) {
+      console.error('Request error:', error.message);
+    }
+  };
+
   return (
     <div className="border-b-2">
       <h2 className="uppercase font-bold text-2xl mb-4">
         Make a post <span className="font-normal">( •_•)</span>
       </h2>
 
-      <form action="post" className="flex flex-col gap-2 border-2 p-4 mb-4">
+      <form
+        action="post"
+        className="flex flex-col gap-2 border-2 p-4 mb-4"
+        onSubmit={handleSubmit}
+      >
         <label htmlFor="title">Title</label>
         <input
           type="text"
           id="title"
+          name="title"
           className="mb-2 outline-none p-4 bg-transparent border-2"
           required
         />
