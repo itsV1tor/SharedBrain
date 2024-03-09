@@ -7,12 +7,15 @@ export function Main() {
     content: '',
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: event.target.value,
+      [e.target.name]: e.target.value,
     });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     try {
       const response = await axios.post(
@@ -30,6 +33,7 @@ export function Main() {
       }
     } catch (error) {
       console.error('Request error:', error.message);
+      console.log(formData)
     }
   };
 
@@ -49,6 +53,8 @@ export function Main() {
           type="text"
           id="title"
           name="title"
+          value={formData.title}
+          onChange={handleChange}
           className="mb-2 outline-none p-4 bg-transparent border-2"
           required
         />
@@ -58,6 +64,8 @@ export function Main() {
           id="content"
           cols="30"
           rows="10"
+          value={formData.content}
+          onChange={handleChange}
           className="resize-none outline-none p-4 bg-transparent border-2"
           required
         ></textarea>
