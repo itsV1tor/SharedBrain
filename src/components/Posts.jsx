@@ -28,9 +28,21 @@ export function Posts() {
   const generateRandomUserId = () => {
     const randomUserId = Math.random().toString(36).substring(2, 12);
     return randomUserId;
-  }
+  };
 
-  console.log(generateRandomUserId())
+  const formatDate = (dateString) => {
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'America/Sao_Paulo',
+    };
+    const formattedDate = new Date(dateString).toLocaleString('en-US', options);
+
+    return formattedDate;
+  };
 
   return (
     <div className="mt-4 mb-40">
@@ -39,20 +51,22 @@ export function Posts() {
 
       {error && <p>{error}</p>}
 
-      {posts.map((post) => (
-        <div key={post.id} className="p-2 border-2">
-          <div className="flex justify-between mb-2">
-            <span className='uppercase'>User: { generateRandomUserId() }</span>
-            <div className="flex items-center gap-2">
-              <FaRegCalendarAlt />
-              <p>{post.created_at}</p>
+      <div className="flex flex-col gap-2">
+        {posts.map((post) => (
+          <div key={post.id} className="p-2 border-2">
+            <div className="flex justify-between mb-2">
+              <span className="uppercase">User:{generateRandomUserId()}</span>
+              <div className="flex items-center gap-2">
+                <FaRegCalendarAlt />
+                <p>{formatDate(post.created_at)}</p>
+              </div>
             </div>
-          </div>
 
-          <h3 className="text-lg border-b-2 pb-2">{post.title}</h3>
-          <p className="mt-2">{post.content}</p>
-        </div>
-      ))}
+            <h3 className="text-lg border-b-2 pb-2">{post.title}</h3>
+            <p className="mt-2">{post.content}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
